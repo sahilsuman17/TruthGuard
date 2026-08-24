@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="TruthGuard - Intelligent Misinformation Detection System using AI, NLP and Machine Learning.">
+
+    <meta name="author"
+          content="Sahil Suman">
+
+    <title>TruthGuard — Intelligent Misinformation Detection</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <a href="#home" class="brand">
+
+        <span class="brand-icon">🛡️</span>
+
+        <span>TruthGuard</span>
+
+    </a>
+
+
+    <nav class="nav-links">
+
+        <a href="#analyzer">Analyzer</a>
+
+        <a href="#history">History</a>
+
+        <a href="#dashboard">Dashboard</a>
+
+        <a href="#how-it-works">How It Works</a>
+
+        <a href="#about">About</a>
+
+    </nav>
+
+</header>
+
+
+
+<main>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <div class="eyebrow">
+
+            <span class="status-dot"></span>
+
+            AI-POWERED MISINFORMATION ANALYSIS
+
+        </div>
+
+
+        <h1>
+
+            Verify Before
+
+            <span>You Believe.</span>
+
+        </h1>
+
+
+        <p class="hero-description">
+
+            TruthGuard analyzes news content using Natural Language
+            Processing and Machine Learning to identify potentially
+            misleading information.
+
+        </p>
+
+
+        <div class="hero-stats">
+
+            <div class="stat">
+
+                <strong>98.65%</strong>
+
+                <span>Model Accuracy*</span>
+
+            </div>
+
+
+            <div class="stat">
+
+                <strong>45K+</strong>
+
+                <span>Training Articles</span>
+
+            </div>
+
+
+            <div class="stat">
+
+                <strong>AI</strong>
+
+                <span>NLP Analysis</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================= ANALYZER ================= -->
+
+    <div class="analyzer-card" id="analyzer">
+
+
+        <div class="card-header">
+
+            <div>
+
+                <span class="card-label">
+                    TRUTHGUARD ANALYZER
+                </span>
+
+                <h2>
+                    Check a News Article
+                </h2>
+
+            </div>
+
+
+            <span class="shield-small">
+                🛡️
+            </span>
+
+        </div>
+
+
+        <p class="card-description">
+
+            Paste a headline or article and let TruthGuard analyze it.
+
+        </p>
+
+
+        <textarea
+            id="newsText"
+            placeholder="Paste your news headline or article here..."
+        ></textarea>
+
+
+        <div class="input-info">
+
+            <span>
+                Analysis powered by NLP + Machine Learning
+            </span>
+
+            <span id="charCount">
+                0 characters
+            </span>
+
+        </div>
+
+
+        <button
+            id="analyzeBtn"
+            type="button"
+        >
+            🔍 Analyze News
+        </button>
+
+
+        <div
+            id="loading"
+            class="loading hidden"
+        >
+
+            <div class="loader"></div>
+
+            <span>
+                Analyzing your news...
+            </span>
+
+        </div>
+
+
+
+        <!-- ================= RESULT ================= -->
+
+        <div
+            id="result"
+            class="result hidden"
+        >
+
+            <div class="result-top">
+
+                <div>
+
+                    <span class="result-label">
+                        TRUTHGUARD RESULT
+                    </span>
+
+                    <h3 id="resultStatus">
+                        Likely Reliable
+                    </h3>
+
+                </div>
+
+
+                <div class="confidence-circle">
+
+                    <span id="confidence">
+                        0%
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="probability-section">
+
+
+                <div class="probability-row">
+
+                    <div class="probability-title">
+
+                        <span>
+                            Potentially Misleading
+                        </span>
+
+                        <strong id="fakeProbability">
+                            0%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="progress-track">
+
+                        <div
+                            id="fakeBar"
+                            class="progress-bar fake-bar"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="probability-row">
+
+                    <div class="probability-title">
+
+                        <span>
+                            Likely Reliable
+                        </span>
+
+                        <strong id="realProbability">
+                            0%
+                        </strong>
+
+                    </div>
+
+
+                    <div class="progress-track">
+
+                        <div
+                            id="realBar"
+                            class="progress-bar real-bar"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="result-note">
+
+                ⚠️ This prediction is probabilistic and should not
+                be treated as a definitive fact-check.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= HISTORY ================= -->
+
+<section
+    class="history-section"
+    id="history"
+>
+
+    <div class="section-heading">
+
+        <span class="section-label">
+            ANALYSIS HISTORY
+        </span>
+
+
+        <h2>
+            Recent <span>Analyses</span>
+        </h2>
+
+
+        <p>
+            Review your recently analyzed news articles,
+            predictions and confidence scores.
+        </p>
+
+    </div>
+
+
+    <div
+        id="historyList"
+        class="history-list"
+    >
+
+        <div class="history-empty">
+
+            <span>📰</span>
+
+            <p>
+                No analyses yet.
+            </p>
+
+            <small>
+                Analyze a news article to see it here.
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <button
+        id="clearHistory"
+        class="clear-history-btn"
+        type="button"
+    >
+        🗑️ Clear History
+    </button>
+
+</section>
+
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section
+    class="dashboard-section"
+    id="dashboard"
+>
+
+
+    <div class="section-heading">
+
+        <span class="section-label">
+            TRUTHGUARD ANALYTICS
+        </span>
+
+
+        <h2>
+            Analysis <span>Dashboard</span>
+        </h2>
+
+
+        <p>
+            Real-time statistics generated from your
+            TruthGuard analysis history.
+        </p>
+
+    </div>
+
+
+
+    <!-- ================= DASHBOARD CARDS ================= -->
+
+    <div class="dashboard-cards">
+
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-icon">
+                📊
+            </div>
+
+            <span>
+                TOTAL ANALYSES
+            </span>
+
+            <strong id="totalAnalyses">
+                0
+            </strong>
+
+        </div>
+
+
+
+        <div class="dashboard-card reliable-card">
+
+            <div class="dashboard-icon">
+                ✅
+            </div>
+
+            <span>
+                LIKELY RELIABLE
+            </span>
+
+            <strong id="reliableAnalyses">
+                0
+            </strong>
+
+        </div>
+
+
+
+        <div class="dashboard-card misleading-card">
+
+            <div class="dashboard-icon">
+                ⚠️
+            </div>
+
+            <span>
+                POTENTIALLY MISLEADING
+            </span>
+
+            <strong id="misleadingAnalyses">
+                0
+            </strong>
+
+        </div>
+
+
+
+        <div class="dashboard-card">
+
+            <div class="dashboard-icon">
+                🎯
+            </div>
+
+            <span>
+                AVG. CONFIDENCE
+            </span>
+
+            <strong id="averageConfidence">
+                0%
+            </strong>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================= DISTRIBUTION ================= -->
+
+    <div class="analytics-panel">
+
+
+        <div class="analytics-panel-header">
+
+            <div>
+
+                <span class="section-label">
+                    ANALYSIS DISTRIBUTION
+                </span>
+
+                <h3>
+                    Reliability Overview
+                </h3>
+
+            </div>
+
+
+            <span class="analytics-badge">
+                LIVE
+            </span>
+
+        </div>
+
+
+
+        <div class="distribution-container">
+
+
+            <!-- RELIABLE -->
+
+            <div class="distribution-row">
+
+                <div class="distribution-info">
+
+                    <span>
+                        🟢 Likely Reliable
+                    </span>
+
+                    <strong id="reliablePercentage">
+                        0%
+                    </strong>
+
+                </div>
+
+
+                <div class="distribution-track">
+
+                    <div
+                        id="reliableDistributionBar"
+                        class="distribution-bar reliable-distribution"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- MISLEADING -->
+
+            <div class="distribution-row">
+
+                <div class="distribution-info">
+
+                    <span>
+                        🔴 Potentially Misleading
+                    </span>
+
+                    <strong id="misleadingPercentage">
+                        0%
+                    </strong>
+
+                </div>
+
+
+                <div class="distribution-track">
+
+                    <div
+                        id="misleadingDistributionBar"
+                        class="distribution-bar misleading-distribution"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- EMPTY DASHBOARD -->
+
+        <div
+            id="dashboardEmpty"
+            class="dashboard-empty"
+        >
+
+            <span>
+                📈
+            </span>
+
+            <p>
+                Start analyzing news to generate statistics.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= HOW IT WORKS ================= -->
+
+<section
+    class="section"
+    id="how-it-works"
+>
+
+
+    <div class="section-heading">
+
+        <span class="section-label">
+            HOW IT WORKS
+        </span>
+
+
+        <h2>
+            From News to Analysis
+        </h2>
+
+
+        <p>
+
+            TruthGuard combines Natural Language Processing
+            and Machine Learning to analyze submitted news content.
+
+        </p>
+
+    </div>
+
+
+
+    <div class="steps">
+
+
+        <div class="step-card">
+
+            <div class="step-number">
+                01
+            </div>
+
+            <div class="step-icon">
+                📰
+            </div>
+
+            <h3>
+                Submit News
+            </h3>
+
+            <p>
+                Paste a headline or complete news article
+                into the TruthGuard analyzer.
+            </p>
+
+        </div>
+
+
+
+        <div class="step-card">
+
+            <div class="step-number">
+                02
+            </div>
+
+            <div class="step-icon">
+                🧠
+            </div>
+
+            <h3>
+                NLP Processing
+            </h3>
+
+            <p>
+                The text is transformed into numerical
+                features using TF-IDF.
+            </p>
+
+        </div>
+
+
+
+        <div class="step-card">
+
+            <div class="step-number">
+                03
+            </div>
+
+            <div class="step-icon">
+                🤖
+            </div>
+
+            <h3>
+                ML Analysis
+            </h3>
+
+            <p>
+                The trained classification model evaluates
+                the submitted content.
+            </p>
+
+        </div>
+
+
+
+        <div class="step-card">
+
+            <div class="step-number">
+                04
+            </div>
+
+            <div class="step-icon">
+                📊
+            </div>
+
+            <h3>
+                Get Result
+            </h3>
+
+            <p>
+                Receive prediction, confidence and
+                probability scores.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= ABOUT ================= -->
+
+<section
+    class="about-section"
+    id="about"
+>
+
+
+    <div class="about-content">
+
+        <span class="section-label">
+            ABOUT TRUTHGUARD
+        </span>
+
+
+        <h2>
+            Meet the <span>Developer</span>
+        </h2>
+
+
+        <p class="about-intro">
+
+            TruthGuard is an educational AI project built to explore
+            Natural Language Processing and Machine Learning for
+            misinformation detection.
+
+        </p>
+
+
+
+        <div class="developer-card">
+
+
+            <!-- PHOTO -->
+
+            <div class="developer-photo">
+
+                <img
+                    src="developer.png"
+                    alt="Sahil Suman - TruthGuard Developer"
+                >
+
+            </div>
+
+
+
+            <!-- INFORMATION -->
+
+            <div class="developer-info">
+
+                <span class="developer-role">
+                    DEVELOPER & CREATOR
+                </span>
+
+
+                <h3>
+                    Sahil Suman
+                </h3>
+
+
+                <h4>
+                    B.Tech CSE (AI Specialization)
+                </h4>
+
+
+                <div class="university">
+                    🎓 Galgotias University
+                </div>
+
+
+                <p>
+
+                    I built TruthGuard as an educational project
+                    to understand and apply Artificial Intelligence,
+                    Natural Language Processing and Machine Learning
+                    to real-world problems like misinformation detection.
+
+                </p>
+
+
+                <div class="skills">
+
+                    <span>🧠 Artificial Intelligence</span>
+
+                    <span>🤖 Machine Learning</span>
+
+                    <span>📄 NLP</span>
+
+                    <span>🛡️ Cybersecurity</span>
+
+                    <span>💻 Full Stack Development</span>
+
+                    <span>⚡ Problem Solving</span>
+
+                </div>
+
+
+                <div class="developer-stats">
+
+                    <div>
+
+                        <strong>2028</strong>
+
+                        <small>
+                            Expected Graduation
+                        </small>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>AI & ML</strong>
+
+                        <small>
+                            Specialization
+                        </small>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>TruthGuard</strong>
+
+                        <small>
+                            Featured Project
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= DISCLAIMER ================= -->
+
+<section class="disclaimer">
+
+    <div class="disclaimer-icon">
+        ⚠️
+    </div>
+
+
+    <div>
+
+        <h3>
+            Important Notice
+        </h3>
+
+
+        <p>
+
+            TruthGuard provides a machine-learning prediction,
+            not a definitive determination of whether a news
+            story is factually true or false. Always verify
+            important claims using reliable primary sources.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-brand">
+
+        <span>🛡️</span>
+
+        <strong>
+            TruthGuard
+        </strong>
+
+    </div>
+
+
+    <p>
+        Intelligent Misinformation Detection System
+    </p>
+
+
+    <p class="copyright">
+
+        © 2026 TruthGuard.
+        Built with Python, NLP & Machine Learning.
+
+    </p>
+
+</footer>
+
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
