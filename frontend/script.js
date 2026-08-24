@@ -1,3 +1,6 @@
+const API_URL =
+    "https://truthguard-api-gb34.onrender.com/predict";
+
 const analyzeBtn =
     document.getElementById("analyzeBtn");
 
@@ -38,37 +41,32 @@ const clearHistory =
     document.getElementById("clearHistory");
 
 
-
 /* =====================================================
    CHARACTER COUNTER
 ===================================================== */
 
-newsText.addEventListener(
-    "input",
-    () => {
+if (newsText && charCount) {
+    newsText.addEventListener("input", () => {
 
         const length =
             newsText.value.length;
 
         charCount.textContent =
             `${length.toLocaleString()} characters`;
-
-    }
-);
-
+    });
+}
 
 
 /* =====================================================
    ANALYZE NEWS
 ===================================================== */
 
-analyzeBtn.addEventListener(
-    "click",
-    async () => {
+if (analyzeBtn) {
+
+    analyzeBtn.addEventListener("click", async () => {
 
         const text =
             newsText.value.trim();
-
 
         if (!text) {
 
@@ -87,22 +85,22 @@ analyzeBtn.addEventListener(
         analyzeBtn.innerHTML =
             "⏳ Analyzing...";
 
-        loading.classList.remove(
-            "hidden"
-        );
 
-        result.classList.add(
-            "hidden"
-        );
+        if (loading) {
+            loading.classList.remove("hidden");
+        }
+
+        if (result) {
+            result.classList.add("hidden");
+        }
 
 
         try {
 
             const response =
                 await fetch(
-                    "http://127.0.0.1:8000/predict",
+                    API_URL,
                     {
-
                         method: "POST",
 
                         headers: {
@@ -113,7 +111,6 @@ analyzeBtn.addEventListener(
                         body: JSON.stringify({
                             text: text
                         })
-
                     }
                 );
 
@@ -123,7 +120,6 @@ analyzeBtn.addEventListener(
                 throw new Error(
                     `Server returned ${response.status}`
                 );
-
             }
 
 
@@ -153,78 +149,120 @@ analyzeBtn.addEventListener(
                 );
 
 
-            resultStatus.textContent =
-                data.prediction;
+            /* ================= RESULT ================= */
+
+            if (resultStatus) {
+
+                resultStatus.textContent =
+                    data.prediction;
+
+            }
 
 
-            confidence.textContent =
-                `${score.toFixed(2)}%`;
+            if (confidence) {
+
+                confidence.textContent =
+                    `${score.toFixed(2)}%`;
+
+            }
 
 
-            fakeProbability.textContent =
-                `${fake.toFixed(2)}%`;
+            if (fakeProbability) {
+
+                fakeProbability.textContent =
+                    `${fake.toFixed(2)}%`;
+
+            }
 
 
-            realProbability.textContent =
-                `${real.toFixed(2)}%`;
+            if (realProbability) {
+
+                realProbability.textContent =
+                    `${real.toFixed(2)}%`;
+
+            }
 
 
-            fakeBar.style.width =
-                "0%";
+            /* ================= BARS ================= */
 
-            realBar.style.width =
-                "0%";
+            if (fakeBar) {
+                fakeBar.style.width = "0%";
+            }
+
+            if (realBar) {
+                realBar.style.width = "0%";
+            }
 
 
-            requestAnimationFrame(
-                () => {
+            requestAnimationFrame(() => {
 
-                    requestAnimationFrame(
-                        () => {
+                requestAnimationFrame(() => {
 
-                            fakeBar.style.width =
-                                `${fake}%`;
+                    if (fakeBar) {
+                        fakeBar.style.width =
+                            `${fake}%`;
+                    }
 
-                            realBar.style.width =
-                                `${real}%`;
+                    if (realBar) {
+                        realBar.style.width =
+                            `${real}%`;
+                    }
 
-                        }
-                    );
+                });
 
-                }
-            );
+            });
 
+
+            /* ================= COLORS ================= */
 
             if (
                 data.prediction ===
                 "Potentially Misleading"
             ) {
 
-                resultStatus.style.color =
-                    "#ef4444";
+                if (resultStatus) {
 
-                confidence.style.borderColor =
-                    "#ef4444";
+                    resultStatus.style.color =
+                        "#ef4444";
+
+                }
+
+                if (confidence) {
+
+                    confidence.style.borderColor =
+                        "#ef4444";
+
+                }
 
             }
 
             else {
 
-                resultStatus.style.color =
-                    "#22c55e";
+                if (resultStatus) {
 
-                confidence.style.borderColor =
-                    "#22c55e";
+                    resultStatus.style.color =
+                        "#22c55e";
+
+                }
+
+                if (confidence) {
+
+                    confidence.style.borderColor =
+                        "#22c55e";
+
+                }
 
             }
 
 
-            result.classList.remove(
-                "hidden"
-            );
+            /* ================= SHOW RESULT ================= */
+
+            if (result) {
+                result.classList.remove("hidden");
+            }
 
 
-            /* SAVE HISTORY */
+            /* ================= SAVE HISTORY ================= */
 
             saveAnalysisHistory(
                 text,
@@ -233,10 +271,9 @@ analyzeBtn.addEventListener(
             );
 
 
-            /* UPDATE DASHBOARD */
+            /* ================= UPDATE DASHBOARD ================= */
 
             updateDashboard();
-
 
         }
 
@@ -251,7 +288,7 @@ analyzeBtn.addEventListener(
 
             alert(
                 "Unable to connect to TruthGuard server.\n\n" +
-                "Make sure FastAPI is running on port 8000."
+                "Please check your internet connection and try again."
             );
 
         }
@@ -259,9 +296,10 @@ analyzeBtn.addEventListener(
 
         finally {
 
-            loading.classList.add(
-                "hidden"
-            );
+            if (loading) {
+                loading.classList.add("hidden");
+            }
+
 
             analyzeBtn.disabled =
                 false;
@@ -271,9 +309,9 @@ analyzeBtn.addEventListener(
 
         }
 
-    }
-);
+    });
 
+}
 
 
 /* =====================================================
@@ -328,7 +366,6 @@ function saveAnalysisHistory(
 }
 
 
-
 /* =====================================================
    DISPLAY HISTORY
 ===================================================== */
@@ -373,74 +410,72 @@ function displayHistory() {
 
 
     historyList.innerHTML =
-        history.map(
-            (item) => {
 
-                const isFake =
-                    item.prediction ===
-                    "Potentially Misleading";
+        history.map((item) => {
 
-
-                return `
-
-                    <div class="history-item">
-
-                        <div class="history-item-top">
-
-                            <span
-                                class="history-prediction ${
-                                    isFake
-                                        ? "fake"
-                                        : "real"
-                                }"
-                            >
-
-                                ${
-                                    isFake
-                                        ? "⚠️ Potentially Misleading"
-                                        : "✅ Likely Reliable"
-                                }
-
-                            </span>
+            const isFake =
+                item.prediction ===
+                "Potentially Misleading";
 
 
-                            <span class="history-confidence">
+            return `
 
-                                ${Number(
-                                    item.confidence
-                                ).toFixed(2)}%
+                <div class="history-item">
 
-                            </span>
+                    <div class="history-item-top">
 
-                        </div>
+                        <span
+                            class="history-prediction ${
+                                isFake
+                                    ? "fake"
+                                    : "real"
+                            }"
+                        >
+
+                            ${
+                                isFake
+                                    ? "⚠️ Potentially Misleading"
+                                    : "✅ Likely Reliable"
+                            }
+
+                        </span>
 
 
-                        <p class="history-text">
+                        <span class="history-confidence">
 
-                            ${escapeHTML(
-                                item.text
-                            )}
+                            ${Number(
+                                item.confidence
+                            ).toFixed(2)}%
 
-                        </p>
-
-
-                        <div class="history-time">
-
-                            🕒 ${escapeHTML(
-                                item.time
-                            )}
-
-                        </div>
+                        </span>
 
                     </div>
 
-                `;
 
-            }
-        ).join("");
+                    <p class="history-text">
+
+                        ${escapeHTML(
+                            item.text
+                        )}
+
+                    </p>
+
+
+                    <div class="history-time">
+
+                        🕒 ${escapeHTML(
+                            item.time
+                        )}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
 
 }
-
 
 
 /* =====================================================
@@ -450,17 +485,16 @@ function displayHistory() {
 function escapeHTML(text) {
 
     const div =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
+
 
     div.textContent =
         String(text);
 
+
     return div.innerHTML;
 
 }
-
 
 
 /* =====================================================
@@ -491,14 +525,12 @@ if (clearHistory) {
 
             displayHistory();
 
-
             updateDashboard();
 
         }
     );
 
 }
-
 
 
 /* =====================================================
@@ -526,32 +558,30 @@ function updateDashboard() {
     let confidenceTotal = 0;
 
 
-    history.forEach(
-        (item) => {
+    history.forEach((item) => {
 
-            if (
-                item.prediction ===
-                "Potentially Misleading"
-            ) {
+        if (
+            item.prediction ===
+            "Potentially Misleading"
+        ) {
 
-                misleading++;
-
-            }
-
-            else {
-
-                reliable++;
-
-            }
-
-
-            confidenceTotal +=
-                Number(
-                    item.confidence
-                ) || 0;
+            misleading++;
 
         }
-    );
+
+        else {
+
+            reliable++;
+
+        }
+
+
+        confidenceTotal +=
+            Number(
+                item.confidence
+            ) || 0;
+
+    });
 
 
     const averageConfidence =
@@ -572,7 +602,6 @@ function updateDashboard() {
             : 0;
 
 
-
     /* ================= COUNTERS ================= */
 
     const totalElement =
@@ -580,15 +609,18 @@ function updateDashboard() {
             "totalAnalyses"
         );
 
+
     const reliableElement =
         document.getElementById(
             "reliableAnalyses"
         );
 
+
     const misleadingElement =
         document.getElementById(
             "misleadingAnalyses"
         );
+
 
     const averageElement =
         document.getElementById(
@@ -628,13 +660,13 @@ function updateDashboard() {
     }
 
 
-
     /* ================= PERCENTAGES ================= */
 
     const reliablePercentageElement =
         document.getElementById(
             "reliablePercentage"
         );
+
 
     const misleadingPercentageElement =
         document.getElementById(
@@ -658,13 +690,13 @@ function updateDashboard() {
     }
 
 
-
     /* ================= BARS ================= */
 
     const reliableBar =
         document.getElementById(
             "reliableDistributionBar"
         );
+
 
     const misleadingBar =
         document.getElementById(
@@ -686,7 +718,6 @@ function updateDashboard() {
             `${misleadingPercentage}%`;
 
     }
-
 
 
     /* ================= EMPTY STATE ================= */
@@ -718,7 +749,6 @@ function updateDashboard() {
     }
 
 }
-
 
 
 /* =====================================================
